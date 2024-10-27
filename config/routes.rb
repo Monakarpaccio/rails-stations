@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'sheets/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -7,5 +8,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :movies,only:[:index]
+    get 'movies/index'
+  namespace :admin do
+  resources :movies,only:[:index,:new,:create,:edit,:update,:destroy]
+  end
+  resources :movies, only: [:index]
+  resources :sheets, only: [:index]
 end

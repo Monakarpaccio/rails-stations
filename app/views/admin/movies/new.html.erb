@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>新規映画登録</title>
+</head>
+<body>
+  <h1>新規映画登録</h1>
+  
+  <% if flash[:alert] %>
+    <p style="color: red;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with model: @movie, url: admin_movies_path, local: true do |form| %>
+    <div>
+      <label for="movie_name">タイトル</label>
+      <%= form.text_field :name, id: "movie_name" %>
+    </div>
+
+    <div>
+      <label for="movie_year">公開年</label>
+      <%= form.text_field :year, id: "movie_year" %>
+    </div>
+
+    <div>
+      <label for="movie_description">概要</label>
+      <%= form.text_area :description, id: "movie_description" %>
+    </div>
+
+    <div>
+      <label for="movie_image_url">画像URL</label>
+      <%= form.text_field :image_url, id: "movie_image_url" %>
+    </div>
+
+    <div>
+      <label for="movie_is_showing">上映中</label>
+      <%= form.check_box :is_showing, id: "movie_is_showing" %>
+    </div>
+
+    <div>
+      <%= form.submit "登録" %>
+    </div>
+  <% end %>
+</body>
+</html>

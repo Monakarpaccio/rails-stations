@@ -1,0 +1,24 @@
+
+<table>
+  <tr>
+    <td colspan="6" style="text-align: center; font-weight: bold;">スクリーン1</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+  </tr>
+  <% ('a'..'c').each do |row| %>
+    <tr>
+      <td><%= row.upcase %></td>
+      <% (1..5).each do |column| %>
+        <td>
+          <div class="seat"><%= "#{row}-#{column}" %></div>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
