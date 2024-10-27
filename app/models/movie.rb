@@ -3,4 +3,5 @@ class Movie < ApplicationRecord
   validates :year, presence: true
   validates :description, presence: true
   validates :image_url, presence: true
+  has_many :schedules, dependent: :destroy
 end

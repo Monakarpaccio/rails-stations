@@ -45,19 +45,32 @@ movies_data = [
     is_showing: true
   }
 ]
-
-# データベースに映画データを挿入
 movies_data.each do |movie|
-  Movie.create(
-    name: movie[:name],
-    year: movie[:year],
-    description: movie[:description],
-    image_url: movie[:image_url],
-    is_showing: movie[:is_showing]
-  )
+  begin
+    # 映画を作成
+    movie_record = Movie.create!(
+      name: movie[:name],
+      year: movie[:year],
+      description: movie[:description],
+      image_url: movie[:image_url],
+      is_showing: movie[:is_showing]
+    )
 
-  Sheet.create([{ column: 1, row: 'a' }, { column: 2, row: 'a' }, { column: 3, row: 'a' }, { column: 4, row: 'a' }, { column: 5, row: 'a' },
-              { column: 1, row: 'b' }, { column: 2, row: 'b' }, { column: 3, row: 'b' }, { column: 4, row: 'b' }, { column: 5, row: 'b' },
-              { column: 1, row: 'c' }, { column: 2, row: 'c' }, { column: 3, row: 'c' }, { column: 4, row: 'c' }, { column: 5, row: 'c' }])
-
+    # スケジュールを作成
+    movie_record.schedules.create!(
+      start_time: '12:00',
+      end_time: '14:00'
+    )
+  rescue ActiveRecord::RecordInvalid => e
+    puts "Error creating movie or schedule: #{e.message}"
+  rescue ActiveRecord::RecordNotSaved => e
+    puts "Parent movie not saved: #{e.message}"
+  end
 end
+
+# シートデータの挿入
+Sheet.create([
+  { column: 1, row: 'a' }, { column: 2, row: 'a' }, { column: 3, row: 'a' }, { column: 4, row: 'a' }, { column: 5, row: 'a' },
+  { column: 1, row: 'b' }, { column: 2, row: 'b' }, { column: 3, row: 'b' }, { column: 4, row: 'b' }, { column: 5, row: 'b' },
+  { column: 1, row: 'c' }, { column: 2, row: 'c' }, { column: 3, row: 'c' }, { column: 4, row: 'c' }, { column: 5, row: 'c' }
+])

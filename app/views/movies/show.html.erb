@@ -1,0 +1,19 @@
+<!-- app/views/movies/show.html.erb -->
+<h1><%= @movie.name %></h1>
+<p><%= @movie.description %></p>
+<p><%= @movie.year %></p>
+<img src="<%= @movie.image_url %>" alt="<%= @movie.name %>の画像" />
+
+<h2>上映スケジュール</h2>
+<table>
+  <tr>
+    <th>開始時刻</th>
+    <th>終了時刻</th>
+  </tr>
+  <% @schedules.each do |schedule| %>
+    <tr>
+      <td><%= schedule.start_time.strftime("%H:%M") %></td>
+      <td><%= schedule.end_time.strftime("%H:%M") %></td>
+    </tr>
+  <% end %>
+</table>

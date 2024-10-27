@@ -12,5 +12,9 @@ class MoviesController < ApplicationController
    if params[:is_showing].present?
     @movies = @movies.where(is_showing: params[:is_showing] == "1")
   end
-end
+  end
+   def show
+    @movie = Movie.find(params[:id])
+    @schedules = @movie.schedules
+  end
 end
