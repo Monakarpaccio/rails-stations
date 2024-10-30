@@ -10,11 +10,11 @@ Rails.application.routes.draw do
   # root "posts#index"
     get 'movies/index'
   namespace :admin do
-  resources :movies,only:[:index,:new,:create,:edit,:update,:destroy]
+  resources :movies,only:[:index,:new,:create,:edit,:update,:destroy,:show] do
+    resources :schedules, only: [:new, :create]
+    end
+    resources :schedules, only: [:index, :show, :edit, :update, :destroy]
   end
   resources :movies, only: [:index,:show]
-  resources :movies do
-    resources :schedules
-  end
   resources :sheets, only: [:index]
 end

@@ -1,0 +1,11 @@
+<h1>上映スケジュール一覧</h1>
+<% @schedules.group_by(&:movie).each do |movie, schedules| %>
+  <h2>作品ID: <%= movie.id %>, 作品名: <%= movie.name %></h2>
+  <ul>
+    <% schedules.each do |schedule| %>
+      <li>
+        <%= link_to "#{schedule.start_time} - #{schedule.end_time}", admin_schedule_path(schedule) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

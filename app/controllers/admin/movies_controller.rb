@@ -1,7 +1,7 @@
 module Admin
 class Admin::MoviesController < ApplicationController
   def index
-    @movies=Movie.all
+    @movies = Movie.includes(:schedules)
   end
 
   def new 
@@ -41,6 +41,10 @@ class Admin::MoviesController < ApplicationController
     redirect_to admin_movies_path
   end
 
+  def show
+    @movie = Movie.find(params[:id])
+  end
+  
 private
   def movie_params
   params.require(:movie).permit(:name, :year, :description, :image_url, :is_showing)
