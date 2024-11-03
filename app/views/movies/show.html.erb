@@ -17,3 +17,20 @@
     </tr>
   <% end %>
 </table>
+
+<!-- 日付選択と上映スケジュール選択のフォーム -->
+<%= form_with url: movie_reservation_path(@movie), method: :get, local: true do %>
+  <div>
+    <label for="date">日付選択:</label>
+    <%= select_tag 'date', options_for_select((0..6).map { |i| [i.days.from_now.strftime('%Y-%m-%d'), i.days.from_now.strftime('%Y-%m-%d')] }) %>
+  </div>
+
+  <div>
+    <label for="schedule_id">上映スケジュール:</label>
+    <%= select_tag 'schedule_id', options_from_collection_for_select(@schedules, 'id', 'start_time') %>
+  </div>
+
+  <div>
+    <%= submit_tag '座席を予約する' %>
+  </div>
+<% end %>

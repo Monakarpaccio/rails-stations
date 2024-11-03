@@ -1,0 +1,30 @@
+<h2>座席表(movies)</h2>
+<p>日付: <%= params[:date] %></p>
+<p>上映スケジュール: <%= @schedule.start_time.strftime("%H:%M") %> - <%= @schedule.end_time.strftime("%H:%M") %></p>
+
+<table>
+  <tr>
+    <td colspan="6" style="text-align: center; font-weight: bold;">スクリーン1</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+  </tr>
+  <% ('A'..'C').each_with_index do |row, row_index| %>
+    <tr>
+      <td><%= row %></td>
+      <% (1..5).each do |column| %>
+        <td>
+          <% sheet_id = row_index * 5 + column %> <!-- row_index * 列数 + columnでユニークな整数IDを生成 -->
+          <%= link_to "#{row}-#{column}", 
+            new_movie_schedule_reservation_path(@movie, @schedule, date: params[:date], sheet_id: sheet_id),
+            class: "seat" %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

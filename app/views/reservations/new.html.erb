@@ -1,0 +1,20 @@
+<h2>座席予約</h2>
+<%= form_with(model: Reservation.new, url: movie_schedule_reservations_path(@movie, @schedule), method: :post) do |f| %>
+  <%= f.hidden_field :schedule_id, value: @schedule_id %>
+  <%= f.hidden_field :sheet_id, value: @sheet.id %>
+  <%= f.hidden_field :date, value: @date %>
+  <%= f.hidden_field :movie_id, value: @movie.id %>
+
+  <p>選択中の映画: <%= @movie.name %></p>
+  <p>日付: <%= params[:date] %></p>
+  <p>sheet_id: <%= @sheet.id %></p>
+  <p>schedule_id: <%= @schedule_id %></p>
+
+  <%= f.label :name, "予約者氏名" %>
+  <%= f.text_field :name %>
+
+  <%= f.label :email, "メールアドレス" %>
+  <%= f.email_field :email %>
+
+  <%= f.submit "予約を確定する" %>
+<% end %>

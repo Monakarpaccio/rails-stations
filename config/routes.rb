@@ -1,20 +1,29 @@
 Rails.application.routes.draw do
+  # シート一覧のルート
   get 'sheets/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :sheets, only: [:index]
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # アプリの正常性確認用
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-    get 'movies/index'
+  # 映画一覧と個別表示
+  resources :movies, only: [:index, :show] do
+    get 'reservation', to: 'movies#reservation' # 座席予約用のルート
+    resources :schedules do
+      resources :reservations, only: [:new, :create], controller: 'reservations'
+    end
+  end
+  
+   # テスト用に /reservations のPOSTルートを追加
+  post 'reservations', to: 'reservations#create'
+  
+  # 管理画面のネストされたリソース
   namespace :admin do
-  resources :movies,only:[:index,:new,:create,:edit,:update,:destroy,:show] do
-    resources :schedules, only: [:new, :create]
+    resources :movies, only: [:index, :new, :create, :edit, :update, :destroy, :show] do
+      resources :schedules, only: [:new, :create]
     end
     resources :schedules, only: [:index, :show, :edit, :update, :destroy]
   end
-  resources :movies, only: [:index,:show]
-  resources :sheets, only: [:index]
+
+
 end

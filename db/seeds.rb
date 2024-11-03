@@ -74,3 +74,8 @@ Sheet.create([
   { column: 1, row: 'b' }, { column: 2, row: 'b' }, { column: 3, row: 'b' }, { column: 4, row: 'b' }, { column: 5, row: 'b' },
   { column: 1, row: 'c' }, { column: 2, row: 'c' }, { column: 3, row: 'c' }, { column: 4, row: 'c' }, { column: 5, row: 'c' }
 ])
+
+Reservation.create([
+  { date: '2024-10-31', schedule_id: 1, sheet_id: 1, email: 'example1@example.com', name: 'User One' },
+  { date: '2024-10-31', schedule_id: 1, sheet_id: 2, email: 'example2@example.com', name: 'User Two' }
+])

@@ -15,6 +15,20 @@ class MoviesController < ApplicationController
   end
    def show
     @movie = Movie.find(params[:id])
-    @schedules = @movie.schedules
+    @schedules = @movie.schedules.includes(:reservations)
   end
+
+  def reservation
+    # スケジュールIDと日付が指定されていない場合、映画リストにリダイレクト
+    unless params[:schedule_id].present? && params[:date].present?
+      return redirect_to movies_path, status: 302
+    end
+
+    # 映画、スケジュール、日付を取得
+    @movie = Movie.find(params[:movie_id])
+    @schedule = Schedule.find(params[:schedule_id])
+    @date = params[:date]
+    @sheets = Sheet.all # 全座席情報を取得して表示
+  end
+
 end
