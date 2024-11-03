@@ -29,6 +29,12 @@ class MoviesController < ApplicationController
     @schedule = Schedule.find(params[:schedule_id])
     @date = params[:date]
     @sheets = Sheet.all # 全座席情報を取得して表示
+
+    # 指定スケジュールで予約済みの席を取得
+  @reserved_sheets = Reservation.where(
+    schedule_id: @schedule.id,
+    date: @date
+  ).pluck(:sheet_id) # 予約済みのsheet_idのみを配列で取得
   end
 
 end

@@ -39,3 +39,8 @@
     margin-top: 20px;
   }
   
+  .sheet.reserved {
+    pointer-events: none; /* クリックできないように設定 */
+    cursor: not-allowed;
+  }
+  

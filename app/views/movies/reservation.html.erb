@@ -1,4 +1,4 @@
-<h2>座席表(movies)</h2>
+<h2>座席表 (movies)</h2>
 <p>日付: <%= params[:date] %></p>
 <p>上映スケジュール: <%= @schedule.start_time.strftime("%H:%M") %> - <%= @schedule.end_time.strftime("%H:%M") %></p>
 
@@ -20,9 +20,19 @@
       <% (1..5).each do |column| %>
         <td>
           <% sheet_id = row_index * 5 + column %> <!-- row_index * 列数 + columnでユニークな整数IDを生成 -->
-          <%= link_to "#{row}-#{column}", 
-            new_movie_schedule_reservation_path(@movie, @schedule, date: params[:date], sheet_id: sheet_id),
-            class: "seat" %>
+
+          <% if @reserved_sheets.include?(sheet_id) %>
+            <!-- 予約済みの席（リンク無効化＆グレー背景） -->
+            <div class="sheet reserved" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: gray;">
+              <%= "#{row}-#{column}" %>
+            </div>
+          <% else %>
+            <!-- 予約可能な席 -->
+            <%= link_to "#{row}-#{column}", 
+              new_movie_schedule_reservation_path(@movie, @schedule, date: params[:date], sheet_id: sheet_id),
+              class: "seat", style: "display: inline-block; width: 100%; height: 100%; text-align: center;" %>
+          <% end %>
+          
         </td>
       <% end %>
     </tr>
