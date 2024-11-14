@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_30_131228) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_13_072024) do
   create_table "movies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 160, null: false, comment: "映画のタイトル。邦題・洋題は一旦考えなくてOK"
     t.string "year", limit: 45, comment: "公開年"
@@ -30,8 +30,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_131228) do
     t.string "name", limit: 50, null: false, comment: "予約者名"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "screen_id", null: false
     t.index ["date", "schedule_id", "sheet_id"], name: "reservation_schedule_sheet_unique", unique: true
     t.index ["schedule_id"], name: "fk_rails_c58adc1819"
+    t.index ["screen_id"], name: "index_reservations_on_screen_id"
     t.index ["sheet_id"], name: "fk_rails_211e0e56f3"
   end
 
@@ -44,6 +46,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_131228) do
     t.index ["movie_id"], name: "index_schedules_on_movie_id"
   end
 
+  create_table "screens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.bigint "movie_id", null: false
+    t.integer "screen_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_screens_on_movie_id"
+  end
+
+  create_table "seats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "seat_number"
+    t.bigint "screen_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["screen_id"], name: "index_seats_on_screen_id"
+  end
+
   create_table "sheets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "column", null: false
     t.string "row", limit: 1, null: false
@@ -54,4 +73,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_131228) do
   add_foreign_key "reservations", "schedules"
   add_foreign_key "reservations", "sheets"
   add_foreign_key "schedules", "movies"
+  add_foreign_key "screens", "movies"
+  add_foreign_key "seats", "screens"
 end

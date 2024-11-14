@@ -1,0 +1,41 @@
+<h1>予約追加</h1>
+
+<%= form_with(model: @reservation, url: admin_reservations_path, local: true) do |form| %>
+  <% if flash[:error] %>
+    <p style="color: red;"><%= flash[:error] %></p>
+  <% end %>
+
+  <div>
+    <%= form.label :movie_id, "映画作品" %>
+    <%= form.select :movie_id, Movie.all.collect { |m| [m.name, m.id] }, prompt: '映画を選択' %>
+  </div>
+
+  <div>
+    <%= form.label :date, "予約日" %>
+    <%= form.date_select :date, start_date: Date.today, end_date: 1.week.from_now.to_date %>
+  </div>
+  
+  <div>
+    <%= form.label :schedule_id, "上映スケジュール" %>
+    <%= form.select :schedule_id, Schedule.all.collect { |s| ["#{s.start_time.strftime("%Y-%m-%d %H:%M")}", s.id] }, prompt: 'スケジュールを選択' %>
+  </div>
+
+  <div>
+    <%= form.label :sheet_id, "座席" %>
+    <%= form.number_field :sheet_id %>
+  </div>
+
+  <div>
+    <%= form.label :name, "予約者氏名" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div>
+    <%= form.submit "予約を追加" %>
+  </div>
+<% end %>

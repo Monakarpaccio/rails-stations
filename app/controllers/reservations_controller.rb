@@ -35,4 +35,5 @@ private
 def reservation_params
   params.require(:reservation).permit(:name, :email, :schedule_id, :sheet_id, :date)
 end
+
 end

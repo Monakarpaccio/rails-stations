@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
   end
   
-   # テスト用に /reservations のPOSTルートを追加
+  # テスト用に /reservations のPOSTルートを追加
   post 'reservations', to: 'reservations#create'
   
   # 管理画面のネストされたリソース
@@ -23,7 +23,8 @@ Rails.application.routes.draw do
       resources :schedules, only: [:new, :create]
     end
     resources :schedules, only: [:index, :show, :edit, :update, :destroy]
+
+    # 予約管理用リソース
+    resources :reservations, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   end
-
-
 end

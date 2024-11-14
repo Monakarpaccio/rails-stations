@@ -13,10 +13,12 @@ class MoviesController < ApplicationController
     @movies = @movies.where(is_showing: params[:is_showing] == "1")
   end
   end
-   def show
+
+  def show
     @movie = Movie.find(params[:id])
     @schedules = @movie.schedules.includes(:reservations)
   end
+
 
   def reservation
     # スケジュールIDと日付が指定されていない場合、映画リストにリダイレクト
@@ -30,6 +32,11 @@ class MoviesController < ApplicationController
     @date = params[:date]
     @sheets = Sheet.all # 全座席情報を取得して表示
 
+    # 各スクリーンの予約済み席を取得
+  @reserved_sheets_screen1 = @schedule.reservations.where(screen_id: 1).pluck(:sheet_id) || []
+  @reserved_sheets_screen2 = @schedule.reservations.where(screen_id: 2).pluck(:sheet_id) || []
+  @reserved_sheets_screen3 = @schedule.reservations.where(screen_id: 3).pluck(:sheet_id) || []
+  
     # 指定スケジュールで予約済みの席を取得
   @reserved_sheets = Reservation.where(
     schedule_id: @schedule.id,

@@ -1,0 +1,36 @@
+<h1>予約詳細</h1>
+
+<p><strong>映画作品:</strong> <%= @reservation.schedule.movie.name %></p>
+<p><strong>座席:</strong> <%= @reservation.sheet_id %></p>
+<p><strong>日時:</strong> <%= @reservation.schedule.start_time.strftime("%Y-%m-%d %H:%M") %></p>
+<p><strong>名前:</strong> <%= @reservation.name %></p>
+<p><strong>メールアドレス:</strong> <%= @reservation.email %></p>
+
+<h2>予約の編集</h2>
+
+<%= form_with(model: @reservation, url: admin_reservation_path(@reservation), local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "予約者の名前" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :schedule_id, "上映スケジュール" %>
+    <%= f.collection_select :schedule_id, Schedule.all, :id, :start_time, { prompt: "スケジュールを選択" }, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :sheet_id, "座席" %>
+    <%= f.number_field :sheet_id, class: "form-control", required: true %>
+  </div>
+
+  <%= f.submit "予約を更新する", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to '削除', admin_reservation_path(@reservation), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+<%= link_to '予約一覧に戻る', admin_reservations_path, class: "btn btn-secondary" %>
