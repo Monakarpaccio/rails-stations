@@ -20,13 +20,8 @@
         <td><%= row %></td>
         <% (1..5).each do |column| %>
           <td>
-            <% sheet_id = row_index * 5 + column %> <!-- ユニークな整数IDを生成 -->
-
-            <% reserved_sheets = case screen_number
-                                 when 1 then @reserved_sheets_screen1
-                                 when 2 then @reserved_sheets_screen2
-                                 when 3 then @reserved_sheets_screen3
-                                 end %>
+            <% sheet_id = (screen_number - 1) * 15 + (row_index * 5 + column) %> <!-- 各スクリーンごとにオフセットを加える -->
+            <% reserved_sheets = @reserved_sheets[screen_number] || [] %> <!-- 予約済みシートを取得 -->
 
             <% if reserved_sheets.include?(sheet_id) %>
               <!-- 予約済みの席（リンク無効化＆グレー背景） -->
@@ -46,3 +41,4 @@
     <% end %>
   </table>
 <% end %>
+

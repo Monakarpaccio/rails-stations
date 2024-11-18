@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_13_072024) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_17_154133) do
   create_table "movies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 160, null: false, comment: "映画のタイトル。邦題・洋題は一旦考えなくてOK"
     t.string "year", limit: 45, comment: "公開年"
@@ -31,10 +31,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_13_072024) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "screen_id", null: false
+    t.bigint "user_id", null: false
     t.index ["date", "schedule_id", "sheet_id"], name: "reservation_schedule_sheet_unique", unique: true
     t.index ["schedule_id"], name: "fk_rails_c58adc1819"
     t.index ["screen_id"], name: "index_reservations_on_screen_id"
     t.index ["sheet_id"], name: "fk_rails_211e0e56f3"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "schedules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -48,11 +50,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_13_072024) do
 
   create_table "screens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
-    t.bigint "movie_id", null: false
     t.integer "screen_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["movie_id"], name: "index_screens_on_movie_id"
   end
 
   create_table "seats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -70,9 +70,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_13_072024) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   add_foreign_key "reservations", "schedules"
   add_foreign_key "reservations", "sheets"
   add_foreign_key "schedules", "movies"
-  add_foreign_key "screens", "movies"
   add_foreign_key "seats", "screens"
 end

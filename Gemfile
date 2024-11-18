@@ -27,6 +27,8 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+gem 'devise'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -48,6 +50,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.1.3'
   gem "factory_bot_rails"
   gem 'rails-controller-testing'
+  gem 'rubocop', require: false
 end
 
 group :development do

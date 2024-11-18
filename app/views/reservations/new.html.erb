@@ -4,6 +4,7 @@
   <%= f.hidden_field :sheet_id, value: @sheet.id %>
   <%= f.hidden_field :date, value: @date %>
   <%= f.hidden_field :movie_id, value: @movie.id %>
+  <%= f.hidden_field :screen_id, value: params[:screen_id] %> <!-- ここに screen_id を追加 -->
 
   <p>選択中の映画: <%= @movie.name %></p>
   <p>日付: <%= params[:date] %></p>

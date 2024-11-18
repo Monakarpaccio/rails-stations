@@ -2,7 +2,7 @@ class Reservation < ApplicationRecord
   belongs_to :schedule
   belongs_to :sheet
   belongs_to :screen
-  
+  belongs_to :user
   delegate :movie, to: :schedule
 
   validates :date, presence: true

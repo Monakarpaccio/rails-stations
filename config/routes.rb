@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   # シート一覧のルート
   get 'sheets/index'
   resources :sheets, only: [:index]
@@ -27,4 +30,6 @@ Rails.application.routes.draw do
     # 予約管理用リソース
     resources :reservations, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   end
+  # トップページを設定
+  root to: "movies#index"
 end

@@ -25,23 +25,17 @@ class MoviesController < ApplicationController
     unless params[:schedule_id].present? && params[:date].present?
       return redirect_to movies_path, status: 302
     end
-
+  
     # 映画、スケジュール、日付を取得
     @movie = Movie.find(params[:movie_id])
     @schedule = Schedule.find(params[:schedule_id])
     @date = params[:date]
     @sheets = Sheet.all # 全座席情報を取得して表示
-
-    # 各スクリーンの予約済み席を取得
-  @reserved_sheets_screen1 = @schedule.reservations.where(screen_id: 1).pluck(:sheet_id) || []
-  @reserved_sheets_screen2 = @schedule.reservations.where(screen_id: 2).pluck(:sheet_id) || []
-  @reserved_sheets_screen3 = @schedule.reservations.where(screen_id: 3).pluck(:sheet_id) || []
   
-    # 指定スケジュールで予約済みの席を取得
-  @reserved_sheets = Reservation.where(
-    schedule_id: @schedule.id,
-    date: @date
-  ).pluck(:sheet_id) # 予約済みのsheet_idのみを配列で取得
+    # 各スクリーンの予約済み席を取得
+    @reserved_sheets = {}
+    (1..3).each do |screen_number|
+      @reserved_sheets[screen_number] = @schedule.reservations.where(screen_id: screen_number, date: @date).pluck(:sheet_id)
+    end
   end
-
 end
